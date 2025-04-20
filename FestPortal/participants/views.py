@@ -302,24 +302,6 @@ def upload_matches_excel(request):
 from .forms import MatchResultForm
 
 @organizer_required
-def update_match_result(request, match_id):
-    match = get_object_or_404(Match, pk=match_id)
-
-    if request.method == 'POST':
-        form = MatchResultForm(request.POST, instance=match)
-        if form.is_valid():
-            form.save()
-            messages.success(request, "Match result updated successfully.")
-            return redirect('match_detail', match_id=match.id)
-    else:
-        form = MatchResultForm(instance=match)
-
-    return render(request, 'participants/update_match_result.html', {
-        'form': form,
-        'match': match
-    })
-
-@organizer_required
 def match_results(request):
     matches = Match.objects.filter(status='Completed').select_related('event', 'team1__college', 'team2__college')
 
